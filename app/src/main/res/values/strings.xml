@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Parking</string>
+    <string name="available_total">%1d / %2d</string>
+    <string name="standby_charging">%1d | %2d</string>
+</resources>
