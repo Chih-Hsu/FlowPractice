@@ -2,12 +2,14 @@ package com.chihhsu.parking.data.repository.remote
 
 import com.chihhsu.parking.data.ParkingUIModel
 import com.chihhsu.parking.data.repository.DataSource
-import com.chihhsu.parking.network.ParkingApi
+import com.chihhsu.parking.network.ParkingService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 
-class RemoteDataSource : DataSource {
+class RemoteDataSource(
+    private val parkingApi: ParkingService
+) : DataSource {
 
     override suspend fun getData(): Flow<List<ParkingUIModel>> {
 
@@ -43,7 +45,7 @@ class RemoteDataSource : DataSource {
 
         return flow {
             val parkingList = mutableListOf<ParkingUIModel>()
-            val result = ParkingApi.retrofitService.getAllParkingLots()
+            val result = parkingApi.getAllParkingLots()
 
             for (park in result.data.park) {
                 val newParkingUIModel =
@@ -58,7 +60,7 @@ class RemoteDataSource : DataSource {
 
         return flow {
             val parkingList = mutableListOf<ParkingUIModel>()
-            val result = ParkingApi.retrofitService.getAvailableParkingLots()
+            val result = parkingApi.getAvailableParkingLots()
 
             for (park in result.data.park) {
                 val charging = park.chargeStation
